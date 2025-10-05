@@ -106,3 +106,6 @@ plt.tight_layout()
 plt.show()
 ```
 
+# BOONNADA ONSAMRITH 6713372 
+# PORNLAPAS KULTHAKERNG 6713381
+
