@@ -34,5 +34,75 @@ print("records:", df.to_string())
 ```
 
 # 2.Creating age groups and filters the data
-##
+## os module
+```os``` module allows the Python code to interact with the underlying operating system
+## Usage
+``` python
+import os
+```
+## Checks the existence of directory path
+Using the variable ```dataset_directory```
+``` python
+dataset_directory = '/kaggle/input/lung-cancer'
+if os.path.exists(dataset_directory):
+    print("Files in the dataset directory:", os.listdir(dataset_directory))
+else:
+    print(f"Directory not found: {dataset_directory}")
+```
+If the directory exists, ```print("Files in the dataset directory:", os.listdir(dataset_directory))```
+
+If the directory does not exist, ```print(f"Directory not found: {dataset_directory}")```
+
 # 3.Generating bar charts and pie chart
+## counting the number of patients in each condition first
+ ```python 
+
+import kagglehub
+from kagglehub import KaggleDatasetAdapter
+import pandas as pd
+
+file_path = "survey lung cancer.csv"
+
+
+df = kagglehub.dataset_load(
+  KaggleDatasetAdapter.PANDAS,
+  "mysarahmadbhat/lung-cancer",
+  file_path,
+)
+
+
+
+df_lung_cancer_filtered = df[df['LUNG_CANCER'] == 'YES'].copy()
+
+
+condition_cols = ['SMOKING', 'YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FATIGUE ', 'ALLERGY ', 'WHEEZING', 'ALCOHOL CONSUMING', 'COUGHING', 'SHORTNESS OF BREATH', 'SWALLOWING DIFFICULTY', 'CHEST PAIN']
+
+
+
+condition_counts = {}
+for condition in condition_cols:
+
+    condition_count = df_lung_cancer_filtered[df_lung_cancer_filtered[condition] == 2].shape[0]
+    condition_counts[condition] = condition_count
+
+
+print("Number of lung cancer patients with each condition:")
+for condition, count in condition_counts.items():
+    print(f"{condition}: {count}")
+```
+## Making a pie chart of the percentages of number of lung cancer patients with each condition
+``` python
+import matplotlib.pyplot as plt
+import pandas as pd
+
+condition_counts_series = pd.Series(condition_counts)
+
+
+plt.figure(figsize=(10, 10))
+plt.pie(condition_counts_series, labels=condition_counts_series.index, autopct='%1.1f%%', startangle=140)
+plt.title('Proportion of Lung Cancer Patients with Each Condition')
+plt.axis('equal')
+plt.tight_layout()
+plt.show()
+```
+
